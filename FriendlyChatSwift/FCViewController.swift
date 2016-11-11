@@ -21,7 +21,11 @@
  
  step 8 add google to authenticate go to Googleservices info plist and copy the REVERSE_CLIENT_ID , go to info of the app and copy it in the URL Types, then go to app delegate and continue
  
- step 9
+ step 9 to 11 configure storage (IMAGES GO TO STORAGE) and setup tableview to display images
+ 
+ step 12 /NOT IMPLEMENTED BECAUSE BUNDLE ID DONT MATCH WITH THE ONE IN APPLE , PUSH NOTIFICATIONS
+ 
+ step 13    Starting remote configuration
  */
 
 
@@ -152,10 +156,38 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     
     func configureRemoteConfig() {
         // TODO: configure remote configuration settings
+        //create a reference to the singleton remote object
+        remoteConfig = FIRRemoteConfig.remoteConfig()
+        //create a remote config settings to enable developer mode
+        let remoteConfigSettings = FIRRemoteConfigSettings(developerModeEnabled: true)
+        remoteConfig.configSettings = remoteConfigSettings!
     }
     
     func fetchConfig() {
         // TODO: update to the current coniguratation
+        //time to take to fetches a new config
+        var expirationDuration: Double = 3600
+        //if developer mode is enabled, set expirationDuration to 0
+        if remoteConfig.configSettings.isDeveloperModeEnabled {
+            expirationDuration = 0 // so inmediatley fecth a new one
+        }
+        //fecth config
+        remoteConfig.fetch(withExpirationDuration: expirationDuration) { (status, error) in
+            if status == .success {
+                print("config fetched")
+                self.remoteConfig.activateFetched()
+                let friendlyMsgLength = self.remoteConfig["friendly_msg_length"]
+                //check if this cames for the rmeoteconfig not for the variable in the app
+                if friendlyMsgLength.source != .static {
+                    self.msglength = friendlyMsgLength.numberValue!
+                    print("friend msg config : \(self.msglength)")
+                }
+
+            } else {
+                print("config not fetched")
+                print("error: \(error)")
+            }
+        }
     }
     
     // MARK: Sign In and Out
@@ -181,12 +213,18 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
             configureDatabase()
             //step 9 Configure Storage
             configureStorage()
+            
+            //step 13 configure remoteconfig
+            configureRemoteConfig()
+            //step 14 fetch configuration variables
+            fetchConfig()
         }
     }
     
     func loginSession() {
         //step 7 : presnet the view controller for authentication this is provided by Firebase UI framework
         let authViewController = FIRAuthUI.default()!.authViewController()
+        authViewController.view.backgroundColor = UIColor.red
         self.present(authViewController, animated: true, completion: nil)
     }
     
@@ -218,10 +256,8 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
             }
             //finally send the mesage url to the database to display the photo in the tableview
             self.sendMessage(data: [Constants.MessageFields.imageUrl: self.storageRef!.child((metadata?.path)!).description])
-            
         }
     }
-    
     // MARK: Alert
     
     func showAlert(title: String, message: String) {

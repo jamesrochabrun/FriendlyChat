@@ -19,6 +19,9 @@ PODS:
   - Firebase/Database (3.9.0):
     - Firebase/Core
     - FirebaseDatabase (= 3.1.0)
+  - Firebase/Messaging (3.9.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 1.2.1)
   - Firebase/RemoteConfig (3.9.0):
     - Firebase/Core
     - FirebaseRemoteConfig (= 1.3.1)
@@ -41,6 +44,12 @@ PODS:
   - FirebaseDatabase (3.1.0):
     - FirebaseAnalytics (~> 3.4)
   - FirebaseInstanceID (1.0.8)
+  - FirebaseMessaging (1.2.1):
+    - FirebaseAnalytics (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/Logger (~> 2.1)
   - FirebaseRemoteConfig (1.3.1):
     - FirebaseAnalytics (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
@@ -88,6 +97,8 @@ PODS:
   - GoogleToolboxForMac/DebugUtils (2.1.0):
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/Logger (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
   - GoogleToolboxForMac/NSData+zlib (2.1.0):
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.0):
@@ -113,6 +124,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
+  - Firebase/Messaging
   - Firebase/RemoteConfig
   - Firebase/Storage
   - FirebaseUI
@@ -128,6 +140,7 @@ SPEC CHECKSUMS:
   FirebaseCore: d0ed25f27b6f9158eccc439f1be6f92e81207e28
   FirebaseDatabase: 3ebb2edb6007c3f0f87b248f3fa212bde56a1468
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
   FirebaseRemoteConfig: 383a9afe0a9291ada949e3f615257928a823b594
   FirebaseStorage: c50aa353bf484072704e73b4aff1bd47adb735c4
   FirebaseUI: 6b22f02b8992fd921116b59e8dcda688c4072517
@@ -142,6 +155,6 @@ SPEC CHECKSUMS:
   TwitterCore: 95c46af93112768a7983bd370d66023553601d01
   TwitterKit: dd8042698b0ff5bd3066fa919b3b2b50d8eed829
 
-PODFILE CHECKSUM: ec1a7674194478fb94e14ee3d7f4edc73c5130fd
+PODFILE CHECKSUM: c8ec2c544ac82baf1c37cb9137e6de220560f748
 
 COCOAPODS: 1.0.1
